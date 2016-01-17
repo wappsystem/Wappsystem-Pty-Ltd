@@ -1,36 +1,41 @@
 <section>
-      <div id=toolbar__ID>
-            <a id=back__ID>Back</a><span class=tab__ID></span><span id=name__ID></span>
-      </div>
-      <div style='clear:left;'>
-            <div id='nav__ID'>
+    <div id=toolbar__ID>
+        <a id=back__ID>Back</a><span class=tab__ID></span><span id=name__ID></span>
+    </div>
+    <div style='clear:left;'>
+        <div id='nav__ID'>
             <span>Data entry and search</span>
             <ul>
-                  <li data-url='https://raw.githubusercontent.com/wappsystem/Sleep-Study-Management/master/modules/month_calendar.html'
-                      data-src='https://github.com/wappsystem/Sleep-Study-Management/blob/master/modules/month_calendar.html'>Monthly Calendar</li>
-                  <li data-url='https://raw.githubusercontent.com/wappsystem/Sleep-Study-Management/master/modules/week_calendar.html'
-                      data-src='https://github.com/wappsystem/Sleep-Study-Management/blob/master/modules/week_calendar.html'>Weekly Calendar</li>
+                  <li data-url='__BASE__/wappsystem/Wappsystem-Pty-Ltd/modules/transaction.html'
+                      data-src='https://github.com/Wappsystem-Pty-Ltd/blob/master/modules/transaction.html'>Transactions</li>
+                  <li data-url='__BASE__/wappsystem/Wappsystem-Pty-Ltd/modules/upload_supporting_document.html'
+                      data-src='https://github.com/Wappsystem-Pty-Ltd/blob/master/modules/upload_supporting_document.html'>Upload supporting documents</li>
             </ul>
             <br>
-            <span>Reports</span>
+            <span>Setup</span>
             <ul>
-                  <li>xxx</li>
-                  <li>xxx</li>
+                <li data-url='__BASE__/wappsystem/Wappsystem-Pty-Ltd/modules/predefined_transaction_item.html'
+                    data-src='https://github.com/Wappsystem-Pty-Ltd/blob/master/modules/predefined_transaction_item.html'>Predefined Transaction Items</li>
             </ul>
             <br>
-            </div>
-            </div>
-      </div>
+            <span>Query</span>
+            <ul>
+                <li data-url='__BASE__/wappsystem/Wappsystem-Pty-Ltd/modules/income_details.html'
+                    data-src='https://github.com/Wappsystem-Pty-Ltd/blob/master/modules/income_details.html'>Income Details</li>
+            </ul>
+            <br>
+        </div>
+    </div>
 </section>
 <script>
       function F__ID(){
             //---------------------------------------------
             //click, permission process
             var content_slot=$vm.root_layout_content_slot;
-            VmInclude:https://raw.githubusercontent.com/vmiis/Common-Modules/master/navigation/link_process.js
-            VmInclude:https://raw.githubusercontent.com/vmiis/Common-Modules/master/toolbar/back.js
+            VmInclude:__BASE__/vmiis/Common-Modules/master/navigation/link_process.js
+            VmInclude:__BASE__/vmiis/Common-Modules/master/toolbar/back.js
             //---------------------------------------------
-            $('#name__ID').text('Sleep Study Management');
+            $('#name__ID').text('Business Management');
             //---------------------------------------------
             $('#D__ID').on('load',function(){
                   set_permissions();

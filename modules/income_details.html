@@ -1,0 +1,32 @@
+<section>
+      VmInclude:__BASE__/vmiis/Common-Modules/frame/query_data_with_period_and_paging.html
+</section>
+<script>
+    function F__ID(){
+        //-------------------------------------
+        var name='Imcome';
+        //-------------------------------------
+        var sql0="with record as (select ID,S1,V1,DT1, Information from [FORM-20007172] where DT1>=@T1 and DT1<=@T2 )";
+        sql0+=",item as (select S1,Information2=Information from [FORM-20005380] where S2='Income') ";
+
+        var sql_n=sql0+"select count (ID) from record join item on record.S1=item.S1";
+        var sql_g=sql0+",tb as (select Information,Information2,ID,DT1,V1,RowNum=row_number() over (order by DT1) from record join item on record.S1=item.S1) ";
+            sql_g=sql_g+"select * from tb  where RowNum between @I6 and @I7";
+        //-------------------------------------
+        var fields="Date,Name,Description,Amount,Tax_Rate|I2_Tax_Rate,Item of Tax Return|I2_Tax_Return,Accounting_Code";
+        //-------------------------------------
+
+        //-------------------------------------
+        VmInclude:__BASE__/vmiis/Common-Modules/frame/query_data_with_period_and_paging.js
+        //-------------------------------------
+        columns[3]={data:'Amount',type: 'numeric',format:'$ 0,0.00'};
+        //-------------------------------------
+        $('#D__ID').on('load',function(){
+              grid_data();
+        })
+        //-------------------------------------
+    }
+</script>
+<style>
+    VmInclude:__BASE__/vmiis/Common-Modules/toolbar/toolbar_for_excel.css
+</style>

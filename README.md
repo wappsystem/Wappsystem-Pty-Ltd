@@ -1,5 +1,5 @@
 # Wappsystem-Pty-Ltd
-Preview link: <a target=_blank href=https://htmlpreview.github.io/?https://raw.githubusercontent.com/wappsystem/Wappsystem-Pty-Ltd/master/index.html>index.html</a>
+Preview link: <a target=_blank href=https://htmlpreview.github.io/?__BASE__/wappsystem/Wappsystem-Pty-Ltd/index.html>index.html</a>
 
 <ul>
 <li>This application can be hosted on any HTML server.</li>

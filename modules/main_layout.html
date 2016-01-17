@@ -4,8 +4,8 @@
           <a href="#" class="control_prev"></a>
           <div id="slider__ID">
           	<ul>
-          		<li style="background: url('https://raw.githubusercontent.com/wappsystem/Wappsystem-Pty-Ltd/master/images/background.jpg') no-repeat top center; background-size: cover;"></li>
-          		<li style="background: url('https://raw.githubusercontent.com/wappsystem/Wappsystem-Pty-Ltd/master/images/background.jpg') no-repeat top center; background-size: cover;"></li>
+          		<li style="background: url('__BASE__/wappsystem/Wappsystem-Pty-Ltd/images/background.jpg') no-repeat top center; background-size: cover;"></li>
+          		<li style="background: url('__BASE__/wappsystem/Wappsystem-Pty-Ltd/images/background.jpg') no-repeat top center; background-size: cover;"></li>
           	</ul>
           </div>
       </div>
@@ -14,9 +14,9 @@
             <div id=logo_label__ID><h2>Wappsystem</h2></div>
             <nav id=nav__ID>
             <ul>
-            	<li data-url='https://raw.githubusercontent.com/wappsystem/Wappsystem-Pty-Ltd/master/modules/home.html'
+            	<li id='home_page' data-url='__BASE__/wappsystem/Wappsystem-Pty-Ltd/modules/home.html'
                       data-src='https://github.com/wappsystem/Wappsystem-Pty-Ltd/blob/master/modules/home.html'>Home</li>
-                	<li data-url='https://raw.githubusercontent.com/wappsystem/Wappsystem-Pty-Ltd/master/modules/sleep_study_management_nav.html'
+                	<li data-url='__BASE__/wappsystem/Wappsystem-Pty-Ltd/modules/business_management_nav.html'
                       data-src='https://github.com/wappsystem/Wappsystem-Pty-Ltd/blob/master/modules/business_management_nav.html'>Business Management</li>
                 	<li><label id=sign__ID>Account</label>
                         <ul>
@@ -40,7 +40,7 @@
 <script>
       function main__ID(){
             //------------------------------------
-            var home_module_url='https://raw.githubusercontent.com/wappsystem/Wappsystem-Pty-Ltd/master/modules/home.html';
+            var home_module_url='__BASE__/wappsystem/Wappsystem-Pty-Ltd/modules/home.html';
             var home_module_src='https://github.com/wappsystem/Wappsystem-Pty-Ltd/blob/master/modules/home.html';
             //------------------------------------
             $vm.root_layout_content_slot="content_slot__ID";
@@ -252,7 +252,7 @@
           width:380px;
           height:94px;
           /*border-radius: 47px;*/
-          background: url('https://raw.githubusercontent.com/wappsystem/Wappsystem-Pty-Ltd/master/images/logo.jpg') no-repeat top center;
+          background: url('__BASE__/wappsystem/Wappsystem-Pty-Ltd/images/logo.jpg') no-repeat top center;
           background-size: contain;
           float:left;
       }

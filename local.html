@@ -7,25 +7,25 @@
 <script>
 $vm={}; $VmAPI={};
 $(document).ready(function(){
-      //--------------------------------------------------------
-      $vm.first_module              ='https://raw.githubusercontent.com/wappsystem/Wappsystem-Pty-Ltd/master/modules/main_layout.html';
-      $vm.first_module_src          ='https://github.com/wappsystem/Wappsystem-Pty-Ltd/blob/master/modules/main_layout.html';
-	$vm.server		            ="development";
-	$vm.debug		            =true;
-	$vm.debug_message	            =true;
-	$VmAPI.api_base	            ="https://cbs.wappsystem.com/dev/";
-	//--------------------------------------------------------
-      g_server          =$vm.server;						//for old vm.js
+    //--------------------------------------------------------
+    $vm.first_module            ='__BASE__/wappsystem/Wappsystem-Pty-Ltd/modules/main_layout.html';
+    $vm.first_module_src        ='https://github.com/wappsystem/Wappsystem-Pty-Ltd/blob/master/modules/main_layout.html';
+    $vm.server		            ="development";
+    $vm.debug		            =true;
+    $vm.debug_message	        =true;
+    $VmAPI.api_base	            ="https://cbs.wappsystem.com/dev/";
+    //--------------------------------------------------------
+    g_server          =$vm.server;						//for old vm.js
 	g_vm_api_url	="https://cbs.wappsystem.com/dev/api.aspx";	//for old vm.js
 	//--------------------------------------------------------
 	var start=function(){
-		var url=$vm.url('https://raw.githubusercontent.com/wappsystem/Wappsystem-Pty-Ltd/master/version.html?_=')+new Date().getTime();
+		var url=$vm.url('__BASE__/wappsystem/Wappsystem-Pty-Ltd/version.html?_=')+new Date().getTime();
 		if($vm.debug_message===true) console.log('load module from '+url);
 		$.get(url,function(new_ver){	$vm.version=new_ver;load_vmapi();},'text')
 	}
 	//--------------------------------------------------------
-	var load_vmapi   =function(){ load_js($vm.url('https://raw.githubusercontent.com/vmiis/VmAPI/master/distribution/vmapi.min.js?_'+$vm.version),load_vm);	}
-	var load_vm      =function(){ load_js($vm.url('https://raw.githubusercontent.com/vmiis/VmFramework/master/distribution/vmframework.min.js?_'+$vm.version),init);}
+	var load_vmapi   =function(){ load_js($vm.url('__BASE__/vmiis/VmAPI/distribution/vmapi.min.js?_'+$vm.version),load_vm);	}
+	var load_vm      =function(){ load_js($vm.url('__BASE__/vmiis/VmFramework/distribution/vmframework.min.js?_'+$vm.version),init);}
 	var init         =function(){ $vm.init({callback:function(){ $vm.load_first_module(); last();  }});	}
 	//--------------------------------------------------------
 	var load_js=function(url,next){
@@ -46,9 +46,10 @@ $(document).ready(function(){
 	}
 	//--------------------------------------------------------
 	$vm.url=function(text){
-		var re1=new RegExp('https://raw.githubusercontent.com', 'g'); 	text=text.replace(re1,window.location.protocol+'//'+window.location.host);
-		var re2=new RegExp('/master/', 'g');					text=text.replace(re2,'/');
-		var re3=new RegExp('/blob/', 'g');					      text=text.replace(re3,'/blob/master/');
+        //var re0=new RegExp('https://raw.githubusercontent.com', 'g'); 	text=text.replace(re0,window.location.protocol+'//'+window.location.host);
+		var re1=new RegExp('__BASE__', 'g'); 	text=text.replace(re1,window.location.protocol+'//'+window.location.host);
+        var re2=new RegExp('/master/', 'g');	text=text.replace(re2,'/');
+		var re3=new RegExp('/blob/', 'g');		text=text.replace(re3,'/blob/master/');
 		return text;
 	}
 	//--------------------------------------------------------

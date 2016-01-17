@@ -1,0 +1,31 @@
+<section>
+      VmInclude:__BASE__/vmiis/Common-Modules/frame/excel.html
+</section>
+<script>
+    function F__ID(){
+        //-------------------------------------
+        $vm.vm['__ID'].db_pid='20005380';
+        //-------------------------------------
+        var fields="Name,Transaction Type|IE,Tax Rate|Tax_Rate,Item of Tax Return|Tax_Return,Accounting Code|Accounting_Code";
+        fields+=",Submit Date|DateTime,Submitted by|Author";
+        //-------------------------------------
+        VmInclude:__BASE__/vmiis/Common-Modules/frame/excel.js
+        //-------------------------------------
+        columns[1]={data:'IE',width:150,type:'dropdown',source: ['Income','Expense','Capital Expense','Salary Expense','Super Expense','W2']};
+        columns[2]={data:'Tax_Rate',width:150,type:'dropdown',source: ['---','GST','GST Free','GST Free Exports','Input Taxed','N/A']};
+        //-------------------------------------
+        var before_submit=function(record,dbv){
+            dbv.S1=record.Name;
+            dbv.S2=record.IE;
+            dbv.S3=record.Tax_Rate;
+        };
+        //-------------------------------------
+        $('#D__ID').on('load',function(){
+              grid_data();
+        })
+        //-------------------------------------
+    }
+</script>
+<style>
+    VmInclude:__BASE__/vmiis/Common-Modules/toolbar/toolbar_for_excel.css
+</style>
