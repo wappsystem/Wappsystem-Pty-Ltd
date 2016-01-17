@@ -23,7 +23,6 @@
                               <li id=signin__ID data-b='1'>Sign In</li>
                               <li id=signout__ID data-b='2'>Sign Out</li>
                               <li id=myaccount__ID data-m='20003125'>My Account</li>
-                              <li id=admin__ID data-m='20003349'>Administrator</li>
                         </ul>
                 	</li>
             </ul>
@@ -146,19 +145,7 @@
                   }
                   //var url=$vm.site_base+'wappsystem/Wappsystem-Pty-Ltd/'+$vm.branch+home_module;
                   load_module(home_module_url,home_module_src);
-                  show_hide_admin();
             };
-            //---------------------------------------------
-            var show_hide_admin=function(){
-                  $('#admin__ID').hide();
-                  if($vm.server=='production'){
-                      $(this).vm6('request',{cmd:'query',fun:'vm_get_app_owner_v3',module:__ID}, function(c){
-                          if(c.ret=="1"){
-                              $('#admin__ID').show();
-                          }
-                      });
-                  }
-            }
             //---------------------------------------------
             var signout=function(){
               $(this).vm5('signout',$vm.user,function(c){
