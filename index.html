@@ -20,9 +20,9 @@ $(document).ready(function(){
 		$.get(url,function(new_ver){ $vm.version=new_ver;load_vmapi();},'text')
 	}
 	//--------------------------------------------------------
-	var load_vmapi   =function(){ load_js($vm.url('__BASE__/vmiis/VmAPI/distribution/vmapi.min.js?_='+$vm.version),load_vm);	}
-	var load_vm      =function(){ load_js($vm.url('__BASE__/vmiis/VmFramework/distribution/vmframework.min.js?_='+$vm.version),load_index_js);}
-    var load_index_js=function(){ load_js($vm.url('__BASE__/'+$vm.repository+'/index.js?_='+$vm.version),init);}
+    var load_vmapi   =function(){ load_js($vm.url('__BASE__/vmiis/VmAPI/distribution/vmapi.min.js'),load_vm);	}
+	var load_vm      =function(){ load_js($vm.url('__BASE__/vmiis/VmFramework/distribution/vmframework.min.js'),load_index_js);}
+    var load_index_js=function(){ load_js($vm.url('__BASE__/'+$vm.repository+'/index.js'),init);}
 	var init         =function(){ $vm.init({callback:function(){$vm.load_first_module({url:$vm.module_list.main_layout[1],src:$vm.module_list.main_layout[2]}); last();  }});	}
 	//--------------------------------------------------------
 	var load_js=function(url,next){
@@ -31,7 +31,7 @@ $(document).ready(function(){
 		//------------------------------------------
 		if(ver!=$vm.version || txt===null || $vm.debug===true){
             if($vm.debug_message===true) console.log('load module from '+url);
-                $.get(url,function(data){
+                $.get(url+'?_='+$vm.version,function(data){
                 localStorage.setItem(url+"_txt",data);
                 localStorage.setItem(url+"_ver",$vm.version);
     			$('head').append('<scr'+'ipt>'+data+'</scr'+'ipt>');
