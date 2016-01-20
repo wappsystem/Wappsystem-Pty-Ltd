@@ -1,11 +1,12 @@
 <section>
       <div>
-          <a href="#" class="control_next"></a>
-          <a href="#" class="control_prev"></a>
+          <a class="control_next"></a>
+          <a class="control_prev"></a>
           <div id="slider__ID">
           	<ul>
           		<li style="background: url('__BASE__/wappsystem/Wappsystem-Pty-Ltd/images/background.jpg') no-repeat top center; background-size: cover;"></li>
           		<li style="background: url('__BASE__/wappsystem/Wappsystem-Pty-Ltd/images/background.jpg') no-repeat top center; background-size: cover;"></li>
+                <li style="background: url('__BASE__/wappsystem/Wappsystem-Pty-Ltd/images/background.jpg') no-repeat top center; background-size: cover;"></li>
           	</ul>
           </div>
       </div>
@@ -14,17 +15,16 @@
             <div id=logo_label__ID><h2>Wappsystem</h2></div>
             <nav id=nav__ID>
             <ul>
-            	<li id='home_page' data-url='__BASE__/wappsystem/Wappsystem-Pty-Ltd/modules/home.html'
-                      data-src='https://github.com/wappsystem/Wappsystem-Pty-Ltd/blob/master/modules/home.html'>Home</li>
-                	<li data-url='__BASE__/wappsystem/Wappsystem-Pty-Ltd/modules/business_management_nav.html'
-                      data-src='https://github.com/wappsystem/Wappsystem-Pty-Ltd/blob/master/modules/business_management_nav.html'>Business Management</li>
-                	<li><label id=sign__ID>Account</label>
-                        <ul>
-                              <li id=signin__ID data-b='1'>Sign In</li>
-                              <li id=signout__ID data-b='2'>Sign Out</li>
-                              <li id=myaccount__ID data-m='20003125'>My Account</li>
-                        </ul>
-                	</li>
+                <li data-name=home id=home_page>Home</li>
+                <li data-name=business_management_nav>Business Management</li>
+            	<li><label id=sign__ID>Account</label>
+                    <ul>
+                        <li id=signin__ID data-b='1'>Sign In</li>
+                        <li id=signout__ID data-b='2'>Sign Out</li>
+                        <li id=myaccount__ID data-m='20003125'>My Account</li>
+                        <li data-b=5>Clear Cache</li>
+                    </ul>
+            	</li>
             </ul>
             </nav>
       </div>
@@ -37,168 +37,24 @@
       Key:Alt + mouse:double click on any module will open the source code window of the module
 </div>
 <script>
-      function main__ID(){
-            //------------------------------------
-            var home_module_url='__BASE__/wappsystem/Wappsystem-Pty-Ltd/modules/home.html';
-            var home_module_src='https://github.com/wappsystem/Wappsystem-Pty-Ltd/blob/master/modules/home.html';
-            //------------------------------------
-            $vm.root_layout_content_slot="content_slot__ID";
-            $vm.root_layout_header='header__ID';
-            $vm.root_layout_footer='footer__ID';
-            //------------------------------------
-            //for old vm.js
-            g_vm.root_layout_content_slot="content_slot__ID";
-            g_vm.root_layout_header='header__ID';
-            g_vm.root_layout_footer='footer__ID';
-            //------------------------------------
-            $('#footer__ID').html('Copyright © '+(new Date()).getFullYear()+', Wappsystem Pty Ltd'); document.title="Wappsystem Pty Ltd";
-            //------------------------------------
-            var on_load=function(){
-                  layout_resize();
-                  //slide show timer
-                  /*
-                  setInterval(function () {
-                        moveRight();
-                  }, 6000);
-                  */
-                  login_changed();
-            };
-            //------------------------------------
-            window.onmessage=function(e){
-                  $vm.user=e.data.username;
-                  $VmAPI.set_token(e.data.token);
-                  g_user=e.data.username;
-                  login_changed();
-            };
-            //------------------------------------
-            $('#D__ID').on('login_changed',function(){
-                  login_changed();
-            });
-            //------------------------------------
-            $('#nav__ID li').on('click',function(event){
-                  event.stopPropagation();
-                  process_click(this);
-            });
-            //---------------------------------------------
-            var load_module=function(url,source){
-                  var param={
-      			pid:$vm.id(url),
-      			slot:$vm.root_layout_content_slot,
-                        url:$vm.url(url),
-                        source:source
-            	}
-                  $vm.load_module(param);
-                  process_background(url);
-            }
-            //------------------------------------
-            var process_background=function(name){
-                  if(name==home_module_url){
-                      $('a.control_prev').show();$('a.control_next').show();
-                      $('#content_slot__ID').css('background','rgba(255, 255, 255, 0');
-                       $('#header__ID').css('opacity','0,7');
-                  }
-                  else{
-                      $('a.control_prev').hide();$('a.control_next').hide();
-                      $('#content_slot__ID').css('background','rgba(255, 255, 255, 1');
-                      $('#header__ID').css('opacity','1.0');
-                  }
-            }
-            //------------------------------------
-            var process_click=function(li){
-                  var url=$(li).attr('data-url');
-                  var src=$(li).attr('data-src');
-                  //var e=$(li).attr('data-e');
-                  var a=$(li).attr('data-a');
-                  var b=$(li).attr('data-b');
-                  var m=$(li).attr('data-m');
-                  //var url=$vm.site_base+n+'/'+$vm.branch+e;
-                  if(url!==undefined){
-                        load_module(url,src);
-                  }
-                  else if(m!==undefined)  $(this).vm6('load_module',  m, $vm.root_layout_content_slot);
-                  else if(a!==undefined){
-                        window.open(a+"?d=1");
-                        return;
-                  }
-                  else if(b!==undefined){
-                      if(b==='1') window.open($VmAPI.api_base+"signin.aspx?url="+window.location.href,"Sign In","width=600, height=600");
-                      else if(b==='2') signout();
-                  }
-                  process_background(url);
-            }
-            //------------------------------------
-            var login_changed=function(){
-                  $vm.user=g_user;
-                  $vm.user_id=g_user_id;
-                  $('#sign__ID').html($vm.user);
-                  if($vm.user!='guest'){
-                        $('#signin__ID').hide();
-                        $('#myaccount__ID').show();
-                        $('#signout__ID').show();
-                        $('#create__ID').hide();
-                  }
-                  else{
-                        $('#signin__ID').show();
-                        $('#myaccount__ID').hide();
-                        $('#signout__ID').hide();
-                        $('#create__ID').show();
-                  }
-                  //var url=$vm.site_base+'wappsystem/Wappsystem-Pty-Ltd/'+$vm.branch+home_module;
-                  load_module(home_module_url,home_module_src);
-            };
-            //---------------------------------------------
-            var signout=function(){
-              $(this).vm5('signout',$vm.user,function(c){
-                  g_user="guest";
-                  g_user_id="0";
-                  $vm.user="guest";
-                  $vm.user_id="0";
-                  $("#sign__ID").text("Account");
-                  login_changed();
-              });
-            };
-            //---------------------------------------------
-            //clide show
-            if( $('#slider__ID').length!==0 ){
-              var slideWidth=window.innerWidth;
-              var slideHeight=window.innerHeight;
-            	var slideCount = $('#slider__ID ul li').length;
-            	var sliderUlWidth = slideCount * slideWidth;
-            	$('#slider__ID').css({ width: slideWidth, height: slideHeight });
-            	$('#slider__ID ul').css({ width: sliderUlWidth, marginLeft: - slideWidth });
-              $('#slider__ID ul li:last-child').prependTo('#slider__ID ul');
-              var moveRight=function() {
-                  $('#slider__ID ul').animate({
-                      left: - slideWidth
-                  }, 700, function () {
-                      $('#slider__ID ul li:first-child').appendTo('#slider__ID ul');
-                      $('#slider__ID ul').css('left', '');
-                  });
-              };
-              var moveLeft=function() {
-                  $('#slider__ID ul').animate({
-                      left: + slideWidth
-                  }, 700, function () {
-                      $('#slider__ID ul li:last-child').prependTo('#slider__ID ul');
-                      $('#slider__ID ul').css('left', '');
-                  });
-              };
-              $('a.control_prev').click(function () { moveLeft(); });
-              $('a.control_next').click(function () { moveRight();});
-            }
-            //------------------------------------
-            var layout_resize=function(){
-              g_vm_min_height=$(window).height()-$('#header__ID').outerHeight()-$('#footer__ID').outerHeight();
-              $vm.min_height=$(window).height()-$('#header__ID').outerHeight()-$('#footer__ID').outerHeight();
-              $('#content_slot__ID').css('min-height',$vm.min_height+'px');
-            };
-            //------------------------------------
-            window.addEventListener("resize", function(){ layout_resize(); });
-            //------------------------------------
-            on_load(); //module entry point
-            //------------------------------------
-      }
-      main__ID(); //main entry point
+    function F__ID(){
+        //------------------------------------
+        $('#footer__ID').html('Copyright © '+(new Date()).getFullYear()+', Wappsystem Pty Ltd'); document.title="Wappsystem Pty Ltd";
+        //------------------------------------
+        var on_load=function(){
+              layout_resize();
+              //slide show timer
+              /*
+              setInterval(function () {
+                    moveRight();
+              }, 6000);
+              */
+              login_changed();
+        };
+        //------------------------------------
+        VmInclude:__BASE__/vmiis/Common-Modules/navigation/main_layout_process.js
+        //------------------------------------
+    }
 </script>
 <style>
       #background__ID{

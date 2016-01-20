@@ -17,7 +17,7 @@ $(document).ready(function(){
 	var start=function(){
 		var url=$vm.url('__BASE__/'+$vm.repository+'/version.html?_=')+new Date().getTime();
 		if($vm.debug_message===true) console.log('load module from '+url);
-		$.get(url,function(new_ver){ $vm.version=new_ver;load_vmapi();},'text')
+        $.get(url,function(new_ver){ $vm.version=new_ver.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, ''); load_vmapi();},'text')
 	}
 	//--------------------------------------------------------
     var load_vmapi   =function(){ load_js($vm.url('__BASE__/vmiis/VmAPI/distribution/vmapi.min.js'),load_vm);	}

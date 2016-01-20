@@ -6,7 +6,7 @@
         //-------------------------------------
         var name='Imcome';
         //-------------------------------------
-        var sql0="with record as (select ID,S1,V1,DT1, Information from [FORM-20007172] where DT1>=@T1 and DT1<=@T2 )";
+        var sql0="with record as (select ID,S1,V1,DT1, Information from [FORM-"+$vm.module_list['transaction'][0]+"] where DT1>=@T1 and DT1<=@T2 )";
         sql0+=",item as (select S1,Information2=Information from [FORM-20005380] where S2='Income') ";
 
         var sql_n=sql0+"select count (ID) from record join item on record.S1=item.S1";

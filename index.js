@@ -9,6 +9,7 @@ $vm.module_list={
 }
 //--------------------------------------------------------
 var last=function(){
+    $('head').append("<style> *{ margin:0; } html,body { height:100%;} </style>");
     setTimeout(function () {
         $.ajaxSetup({ cache: true });
         $.getScript('https://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/jquery-ui.min.js');
@@ -21,7 +22,6 @@ var last=function(){
         });
         $('head').append("<link rel='stylesheet' media='screen' href='https://cbs.wappsystem.com/system/third/handsontable.full.min.css'>");
         $('head').append("<link rel='stylesheet' href='https://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/themes/redmond/jquery-ui.css'>");
-        $('head').append("<style> *{ margin:0; } html,body { height:100%;} </style>");
     }, 100);
 
 }
