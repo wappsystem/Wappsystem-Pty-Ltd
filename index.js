@@ -1,11 +1,18 @@
+//--------------------------------------------------------
 $vm.module_list={
-    main_layout:                 ['--------','__BASE__/wappsystem/Wappsystem-Pty-Ltd/modules/main_layout.html','https://github.com/wappsystem/Wappsystem-Pty-Ltd/blob/master/modules/main_layout.html'],
-    home:                        ['--------','__BASE__/wappsystem/Wappsystem-Pty-Ltd/modules/home.html','https://github.com/wappsystem/Wappsystem-Pty-Ltd/blob/master/modules/home.html'],
-    business_management_nav:     ['--------','__BASE__/wappsystem/Wappsystem-Pty-Ltd/modules/business_management_nav.html','https://github.com/wappsystem/Wappsystem-Pty-Ltd/blob/master/modules/business_management_nav.html'],
-    transaction:                 ['20007172','__BASE__/wappsystem/Wappsystem-Pty-Ltd/modules/transaction.html','https://github.com/wappsystem/Wappsystem-Pty-Ltd/blob/master/modules/transaction.html'],
-    predefined_transaction_item: ['20005380','__BASE__/wappsystem/Wappsystem-Pty-Ltd/modules/predefined_transaction_item.html','https://github.com/wappsystem/Wappsystem-Pty-Ltd/blob/master/modules/predefined_transaction_item.html'],
-    upload_supporting_document:  ['20007516','__BASE__/wappsystem/Wappsystem-Pty-Ltd/modules/upload_supporting_document.html','https://github.com/wappsystem/Wappsystem-Pty-Ltd/blob/master/modules/upload_supporting_document.html'],
-    income_details:              ['--------','__BASE__/wappsystem/Wappsystem-Pty-Ltd/modules/income_details.html','https://github.com/wappsystem/Wappsystem-Pty-Ltd/blob/master/modules/income_details.html'],
+    main_layout:                 ['--------','.../main_layout.html'],
+    home:                        ['--------','.../home.html'],
+    business_management_nav:     ['--------','.../business_management_nav.html'],
+    transaction:                 ['20007172','.../transaction.html'],
+    predefined_transaction_item: ['20005380','.../predefined_transaction_item.html'],
+    upload_supporting_document:  ['20007516','.../upload_supporting_document.html'],
+    income_details:              ['--------','.../income_details.html'],
+}
+//--------------------------------------------------------
+for(key in $vm.module_list){
+    var path=$vm.module_list[key][1];$vm.module_list[key].push(path);
+    $vm.module_list[key][1]=path.replace('...','__BASE__/'+$vm.repository+'/modules')
+    $vm.module_list[key][2]=path.replace('...','https://github.com/'+$vm.repository+'/blob/master/module')
 }
 //--------------------------------------------------------
 var last=function(){
