@@ -1,4 +1,3 @@
-//--------------------------------------------------------
 $vm.module_list={
     main_layout:                 ['--------','.../main_layout.html'],
     home:                        ['--------','.../home.html'],
@@ -10,9 +9,9 @@ $vm.module_list={
 }
 //--------------------------------------------------------
 for(key in $vm.module_list){
-    var path=$vm.module_list[key][1];$vm.module_list[key].push(path);
-    $vm.module_list[key][1]=path.replace('...','__BASE__/'+$vm.repository+'/modules')
-    $vm.module_list[key][2]=path.replace('...','https://github.com/'+$vm.repository+'/blob/master/module')
+    $vm.module_list[key].push($vm.module_list[key][1]);
+    $vm.module_list[key][1]=$vm.module_list[key][1].replace('...','__BASE__/'+$vm.repository+'/modules')
+    $vm.module_list[key][2]=$vm.module_list[key][2].replace('...','https://github.com/'+$vm.repository+'/master/module')
 }
 //--------------------------------------------------------
 var last=function(){

@@ -4,8 +4,6 @@
 <script>
     function F__ID(){
         //-------------------------------------
-        $vm.vm['__ID'].db_pid=$vm.module_list['upload_supporting_document'][0];
-        //-------------------------------------
         var fields="Choose,Document,Last Modified|lastModified,Size,Description,Reference|UID";
         fields+=",Submit Date|DateTime,Submitted by|Author";
         //-------------------------------------
@@ -38,7 +36,7 @@
         columns[3]={data:'Size',readOnly:true};
         //-------------------------------------
         columns[5]={data:'UID',readOnly:true,renderer:function(instance, td, row, col, prop, value, cellProperties){
-            if(records[row]!==undefined) $vm.file_reference({td:td,PID:$vm.vm['__ID'].db_pid,value:value,file_name:records[row].Document});
+            if(records[row]!==undefined) $vm.file_reference({td:td,PID:$vm.module_list[$vm.vm['__ID'].name][0],value:value,file_name:records[row].Document});
             return td;
         }};
         //-------------------------------------
