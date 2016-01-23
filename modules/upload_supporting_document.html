@@ -1,5 +1,5 @@
 <section>
-      VmInclude:__BASE__/vmiis/Common-Modules/frame/excel.html
+      VmInclude:__BASE__/vmiis/Common-Code/frame/excel.html
 </section>
 <script>
     function F__ID(){
@@ -7,7 +7,7 @@
         var fields="Choose,Document,Last Modified|lastModified,Size,Description,Reference|UID";
         fields+=",Submit Date|DateTime,Submitted by|Author";
         //-------------------------------------
-        VmInclude:__BASE__/vmiis/Common-Modules/frame/excel.js
+        VmInclude:__BASE__/vmiis/Common-Code/frame/excel.js
         //-------------------------------------
         columns[0]={data:'Choose',width:100, renderer:function(instance, td, row, col, prop, value, cellProperties){
             if( $(td).html()!=="") return td;
@@ -47,5 +47,5 @@
     }
 </script>
 <style>
-    VmInclude:__BASE__/vmiis/Common-Modules/toolbar/toolbar_for_excel.css
+    VmInclude:__BASE__/vmiis/Common-Code/toolbar/toolbar_for_excel.css
 </style>

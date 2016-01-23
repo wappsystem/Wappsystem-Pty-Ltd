@@ -1,5 +1,5 @@
 <section>
-      VmInclude:__BASE__/vmiis/Common-Modules/frame/query_data_with_period_and_paging.html
+      VmInclude:__BASE__/vmiis/Common-Code/frame/query_data_with_period_and_paging.html
 </section>
 <script>
     function F__ID(){
@@ -17,7 +17,7 @@
         //-------------------------------------
 
         //-------------------------------------
-        VmInclude:__BASE__/vmiis/Common-Modules/frame/query_data_with_period_and_paging.js
+        VmInclude:__BASE__/vmiis/Common-Code/frame/query_data_with_period_and_paging.js
         //-------------------------------------
         columns[3]={data:'Amount',type: 'numeric',format:'$ 0,0.00'};
         //-------------------------------------
@@ -28,5 +28,9 @@
     }
 </script>
 <style>
-    VmInclude:__BASE__/vmiis/Common-Modules/toolbar/toolbar_for_excel.css
+    VmInclude:__BASE__/vmiis/Common-Code/toolbar/toolbar_for_excel.css
+    #D__ID{
+        font-size:14px;
+        font-family: Helvetica, Arial, sans-serif;
+    }
 </style>

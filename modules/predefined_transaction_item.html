@@ -1,5 +1,5 @@
 <section>
-      VmInclude:__BASE__/vmiis/Common-Modules/frame/excel.html
+      VmInclude:__BASE__/vmiis/Common-Code/frame/excel.html
 </section>
 <script>
     function F__ID(){
@@ -7,7 +7,7 @@
         var fields="Name,Transaction Type|IE,Tax Rate|Tax_Rate,Item of Tax Return|Tax_Return,Accounting Code|Accounting_Code";
         fields+=",Submit Date|DateTime,Submitted by|Author";
         //-------------------------------------
-        VmInclude:__BASE__/vmiis/Common-Modules/frame/excel.js
+        VmInclude:__BASE__/vmiis/Common-Code/frame/excel.js
         //-------------------------------------
         columns[1]={data:'IE',width:150,type:'dropdown',source: ['Income','Expense','Capital Expense','Salary Expense','Super Expense','W2']};
         columns[2]={data:'Tax_Rate',width:150,type:'dropdown',source: ['---','GST','GST Free','GST Free Exports','Input Taxed','N/A']};
@@ -25,5 +25,5 @@
     }
 </script>
 <style>
-    VmInclude:__BASE__/vmiis/Common-Modules/toolbar/toolbar_for_excel.css
+    VmInclude:__BASE__/vmiis/Common-Code/toolbar/toolbar_for_excel.css
 </style>
