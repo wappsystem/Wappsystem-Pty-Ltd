@@ -2,19 +2,21 @@ $vm.module_list={
     layout:                      ['--------','.../layout.html'],
     home:                        ['--------','.../modules/home.html'],
     business_management_nav:     ['--------','.../modules/business_management_nav.html'],
+    client:                      ['20000368','.../modules/client.html'],
     transaction:                 ['20007172','.../modules/transaction.html'],
     predefined_transaction_item: ['20005380','.../modules/predefined_transaction_item.html'],
     upload_supporting_document:  ['20007516','.../modules/upload_supporting_document.html'],
     income_details:              ['--------','.../modules/income_details.html'],
     invoice:                     ['20004121','.../modules/invoice.html'],
-    client:                      ['20000368','.../modules/client.html'],
-
+    invoice_items:               ['20004122','.../modules/invoice_items.html'],
+    invoice_patments:            ['20004123','.../modules/invoice_patments.html'],
+    invoice_print:               ['--------','.../modules/invoice_print.html'],
 }
 //--------------------------------------------------------
 for(key in $vm.module_list){
     $vm.module_list[key].push($vm.module_list[key][1]);
     $vm.module_list[key][1]=$vm.module_list[key][1].replace('...','__BASE__/'+$vm.repository)
-    $vm.module_list[key][2]=$vm.module_list[key][2].replace('...','https://github.com/'+$vm.repository+'/master')
+    $vm.module_list[key][2]=$vm.module_list[key][2].replace('...','https://github.com/'+$vm.repository+'/blob/master')
 }
 //--------------------------------------------------------
 var jsN=0;

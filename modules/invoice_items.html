@@ -1,0 +1,130 @@
+<section>
+      VmInclude:__BASE__/vmiis/Common-Code/frame/excel.html
+</section>
+<script>
+    function F__ID(){
+        //-------------------------------------
+        var fields="Invoice Number|PUID,Item_Code|i1Item_Code,Description|i1Description,GST|i1GST,Price|i1Price,Qty|i1Qty,Sub_Total|i1Sub_Total";
+        fields+=",Submit Date|DateTime,Submitted by|Author";
+        //-------------------------------------
+        VmInclude:__BASE__/vmiis/Common-Code/frame/excel.js
+        //-------------------------------------
+        columns[0]={data:'PUID', readOnly:true};
+        columns[3]={data:'i1GST',width:36,renderer:function(instance, td, row, col, prop, value, cellProperties){
+            if(value==="on" || value=="1" || value===true) $(td).html("<input type=checkbox checked />");
+            else $(td).html("<input type=checkbox />");
+            $(td).find('input[type=checkbox]').change(function(){
+                var hot=$('#excel__ID').handsontable('getInstance');
+                hot.setDataAtCell(row,col,this.checked,'');
+                var gst=0;  if(this.checked===true) gst=1;
+                price=records[row].i1Price;
+                qty=records[row].i1Qty;
+                hot.setDataAtCell(row, 6, (price*qty*(1+0.1*gst)).toFixed(2),'');
+            });
+        }};
+        columns[4]={data:'i1Price',type:'numeric',format:'$ 0,000.00'};
+        columns[5]={data:'i1Qty',type:'numeric'};
+        columns[6]={data:'i1Sub_Total',readOnly:true,type:'numeric',format:'$ 0,000.00'};
+        //-------------------------------------
+        var before_submit=function(record,dbv){
+            if(db_pid===undefined && record.UID===null){
+                alert("No parent");
+                return false;
+            }
+            var v;
+            dbv.V1='0'; v=record.i1Sub_Total; if(v!=='') dbv.V1=parseFloat(v).toFixed(2);
+            dbv.V2='0'; v=record.i1Qty; if(v!=='') dbv.V2=v;
+            dbv.V3='0'; v=record.i1Price; if(v!=='') dbv.V3=v;
+            dbv.S1=record.i1Item_Code;
+            dbv.B1='0'; if(record.i1GST===true) dbv.B1='1';
+    		dbv.PPID=parent_pid;
+    		dbv.PUID=db_pid;
+
+            g_vm[parent_module_pid].child_data_changed=1;
+
+    	    jQuery.ajaxSetup({async:false});
+    		var req={cmd:'data2',action:"record_modify_pp",ppid:parent_pid,puid:db_pid,data:{GST_Amount:'-1',Total_Amount:'-1'},dbv:{V1:'-1',V2:'-1'} };
+            $(this).vm7('request',req);
+    	    jQuery.ajaxSetup({async:true});
+
+            return true;
+        };
+        //-------------------------------------
+        var after_submit=function(I,res,n,dbv){
+    	    jQuery.ajaxSetup({async:false});
+            var sql="with tb as (select V1, GST=case when B1=1 then V1/11 else 0 end,PUID from [TABLE-20004122] where PUID ="+db_pid+") ";
+            sql+="select Total=Sum(V1),GST=Sum(GST), PUID from tb group by PUID";
+            $(this).vm7('request',{cmd:'data2',action:'table',sql:sql}, function(res){
+                var Total=res.table[0].Total;
+                var GST=res.table[0].GST;
+    		    var req={cmd:'data2',action:"record_modify_pp",ppid:parent_pid,puid:db_pid,data:{GST_Amount:GST,Total_Amount:Total},dbv:{V1:Total,V2:GST} };
+                $(this).vm7('request',req);
+            });
+    	    jQuery.ajaxSetup({async:true});
+        };
+        //-------------------------------------
+        var before_change=function(changes,source){
+    	    if(source=="edit"){
+                var I=changes[0][0];
+                var p=changes[0][1];
+                var v=changes[0][3];
+                var hot = $('#excel__ID').handsontable('getInstance');
+                var price,qty,gst;
+                if(p==='i1GST'){
+                    if(v===true) gst=1; else gst=0;
+                    price=records[I].i1Price;
+                    qty=records[I].i1Qty;
+                    hot.setDataAtCell(I, 6, (price*qty*(1+0.1*gst)).toFixed(2),'');
+                }
+                if(p==='i1Price'){
+                    if(records[I].i1GST===true) gst=1; else gst=0;
+                    price=v;
+                    qty=records[I].i1Qty;
+                    hot.setDataAtCell(I, 6, (price*qty*(1+0.1*gst)).toFixed(2),'');
+                }
+                if(p==='i1Qty'){
+                    if(records[I].i1GST===true) gst=1; else gst=0;
+                    price=records[I].i1Price;
+                    qty=v;
+                    hot.setDataAtCell(I, 6, (price*qty*(1+0.1*gst)).toFixed(2),'');
+                }
+    	    }
+        };
+        //-------------------------------------
+        var pre_data_process=function (){
+            for(var i=0;i<records.length;i++){
+                records[i].i1GST=cv(records[i].i1GST);
+                var gst=0; if(records[i].i1GST===true) gst=1;
+                var price=records[i].i1Price;
+                var qty=records[i].i1Qty;
+                records[i].i1Sub_Total=(price*qty*(1+0.1*gst)).toFixed(2);
+            }
+        };
+        //-------------------------------------
+        var cv=function(v){
+            if(v==="True") return true;
+            else if(v==='1') return true;
+            else if(v==='on') return true;
+            else return false;
+        };
+        //-------------------------------------
+        var new_pre_data_process=function(){
+            records[0].i1GST=cv(records[0].i1GST);
+            if($vm.vm['__ID'].puid!==undefined) $("#excel__ID").handsontable("setDataAtCell", 0, 0, $vm.vm['__ID'].puid);
+        };
+        //-------------------------------------
+        var parent_where="";
+        $('#D__ID').on('load',function(){
+            if($vm.vm['__ID'].puid!==undefined) parent_where=" where PUID="+$vm.vm['__ID'].puid;
+            grid_data();
+        });
+        //-------------------------------------
+    }
+</script>
+<style>
+    VmInclude:__BASE__/vmiis/Common-Code/toolbar/toolbar_for_excel.css
+    #D__ID{
+        font-size:14px;
+        font-family: Helvetica, Arial, sans-serif;
+    }
+</style>

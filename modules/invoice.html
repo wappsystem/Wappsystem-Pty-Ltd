@@ -5,7 +5,7 @@
     function F__ID(){
         //-------------------------------------
         //g_vm[__ID].db_pid='20004121';
-        var client_pid=$vm.module_list['wapp_client'][0]; //'20000368';
+        var client_pid=$vm.module_list['client'][0]; //'20000368';
         //var invoice_info_pid='20004120';
         //var invoice_html_pid='20006725';
         //-------------------------------------
@@ -18,7 +18,18 @@
             if(value===null || value===undefined){ td.innerHTML=""; return td;}
             td.innerHTML="<u style='cursor:pointer'>Invoice</u>";
             $(td).find('u').on('click',function(){
-                $(this).vm6('load_module','20007349',g_vm.root_layout_content_slot,{uid:value});
+                //$(this).vm6('load_module','20007349',g_vm.root_layout_content_slot,{uid:value});
+                var url=$vm.module_list['invoice_print'][1];
+                var src=$vm.module_list['invoice_print'][2];
+                var param={
+                    name:'invoice_print',
+                    pid:$vm.id(url),
+                    slot:$vm.root_layout_content_slot,
+                    url:$vm.url(url),
+                    source:src,
+                    puid:value,
+                 }
+                 $vm.load_module(param);
             });
             return td;
         }};
@@ -45,7 +56,17 @@
             if(value===null){ td.innerHTML=""; return td;}
             td.innerHTML="<u style='cursor:pointer'>Items...</u>";
             $(td).find('u').on('click',function(){
-                $(this).vm6('load_module','20007347',g_vm.root_layout_content_slot,{puid:value});
+                var url=$vm.module_list['invoice_items'][1];
+                var src=$vm.module_list['invoice_items'][2];
+                var param={
+                    name:'invoice_items',
+                    pid:$vm.id(url),
+                    slot:$vm.root_layout_content_slot,
+                    url:$vm.url(url),
+                    source:src,
+                    puid:value,
+                 }
+                 $vm.load_module(param);
             });
             return td;
         }};
@@ -57,7 +78,18 @@
             if(value===null){ td.innerHTML=""; return td;}
             td.innerHTML="<u style='cursor:pointer'>Pay...</u>";
             $(td).find('u').on('click',function(){
-                $(this).vm6('load_module','20007348',g_vm.root_layout_content_slot,{puid:value});
+                //$(this).vm6('load_module','20007348',g_vm.root_layout_content_slot,{puid:value});
+                var url=$vm.module_list['invoice_patments'][1];
+                var src=$vm.module_list['invoice_patments'][2];
+                var param={
+                    name:'invoice_patments',
+                    pid:$vm.id(url),
+                    slot:$vm.root_layout_content_slot,
+                    url:$vm.url(url),
+                    source:src,
+                    puid:value,
+                 }
+                 $vm.load_module(param);
             });
         }};
         columns[10]={data:'Total_Payment',type: 'numeric',format: '$ 0,000.00', readOnly:true};
@@ -107,8 +139,8 @@
         };
         //-------------------------------------
         $('#D__ID').on('back',function(){
-            if(g_vm[__ID].child_data_changed===1){
-                g_vm[__ID].child_data_changed=0;
+            if($vm.vm['__ID'].child_data_changed===1){
+                $vm.vm['__ID'].child_data_changed=0;
                 grid_data();
             }
         });
