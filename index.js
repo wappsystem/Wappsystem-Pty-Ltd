@@ -1,17 +1,20 @@
 $vm.module_list={
-    main_layout:                 ['--------','.../main_layout.html'],
-    home:                        ['--------','.../home.html'],
-    business_management_nav:     ['--------','.../business_management_nav.html'],
-    transaction:                 ['20007172','.../transaction.html'],
-    predefined_transaction_item: ['20005380','.../predefined_transaction_item.html'],
-    upload_supporting_document:  ['20007516','.../upload_supporting_document.html'],
-    income_details:              ['--------','.../income_details.html'],
+    layout:                      ['--------','.../layout.html'],
+    home:                        ['--------','.../modules/home.html'],
+    business_management_nav:     ['--------','.../modules/business_management_nav.html'],
+    transaction:                 ['20007172','.../modules/transaction.html'],
+    predefined_transaction_item: ['20005380','.../modules/predefined_transaction_item.html'],
+    upload_supporting_document:  ['20007516','.../modules/upload_supporting_document.html'],
+    income_details:              ['--------','.../modules/income_details.html'],
+    invoice:                     ['20004121','.../modules/invoice.html'],
+    wp_client:                      ['20000368','.../modules/client.html'],
+
 }
 //--------------------------------------------------------
 for(key in $vm.module_list){
     $vm.module_list[key].push($vm.module_list[key][1]);
-    $vm.module_list[key][1]=$vm.module_list[key][1].replace('...','__BASE__/'+$vm.repository+'/modules')
-    $vm.module_list[key][2]=$vm.module_list[key][2].replace('...','https://github.com/'+$vm.repository+'/master/module')
+    $vm.module_list[key][1]=$vm.module_list[key][1].replace('...','__BASE__/'+$vm.repository)
+    $vm.module_list[key][2]=$vm.module_list[key][2].replace('...','https://github.com/'+$vm.repository+'/master')
 }
 //--------------------------------------------------------
 var last=function(){

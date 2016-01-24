@@ -1,0 +1,128 @@
+<section>
+      VmInclude:__BASE__/vmiis/Common-Code/frame/excel.html
+</section>
+<script>
+    function F__ID(){
+        //-------------------------------------
+        //g_vm[__ID].db_pid='20004121';
+        var client_pid=$vm.module_list['wapp_client'][0]; //'20000368';
+        //var invoice_info_pid='20004120';
+        //var invoice_html_pid='20006725';
+        //-------------------------------------
+        var fields="Print|UID,Client,Invoice_Number|UID,Issue_Date,To,Due_Date,Items|UID,GST_Amount,Total_Amount,Payments|UID,Total_Payment,Balance";
+        fields+=",Submit Date|DateTime,Submitted by|Author";
+        //-------------------------------------
+        VmInclude:__BASE__/vmiis/Common-Code/frame/excel.js
+        //-------------------------------------
+        columns[0]={data:'UID', width:60,renderer:function(instance, td, row, col, prop, value, cellProperties){
+            if(value===null || value===undefined){ td.innerHTML=""; return td;}
+            td.innerHTML="<u style='cursor:pointer'>Invoice</u>";
+            $(td).find('u').on('click',function(){
+                $(this).vm6('load_module','20007349',g_vm.root_layout_content_slot,{uid:value});
+            });
+            return td;
+        }};
+        //-------------------------------------
+        columns[1]={data:'Client',type:'autocomplete',source:function(query, process){
+            var sqlA="with tb as (select [Item]=Convert(varchar,UID)+'-'+@('Client_Name') from [TABLE-"+client_pid+"])";
+            sqlA+=" select top 10 Item from tb where Item like '%'+@S1+'%' ";
+            $(this).vm8('auto',query,process,sqlA,0);
+        }};
+        //-------------------------------------
+        columns[2]={data:'UID', readOnly:true};
+        //-------------------------------------
+        columns[3]={data:'Issue_Date',width:120,type: 'date',format: 'DD/MM/YYYY',correctFormat:true};
+        //-------------------------------------
+        columns[4]={data:'To', width:50,renderer:function(instance, td, row, col, prop, value, cellProperties){
+            if(value===null){ td.innerHTML=""; return td;}
+            td.innerHTML="To...";
+            return td;
+        }};
+        //-------------------------------------
+        columns[5]={data:'Due_Date',width:120,type: 'date',format: 'DD/MM/YYYY',correctFormat:true};
+        //-------------------------------------
+        columns[6]={data:'UID', width:80,renderer:function(instance, td, row, col, prop, value, cellProperties){
+            if(value===null){ td.innerHTML=""; return td;}
+            td.innerHTML="<u style='cursor:pointer'>Items...</u>";
+            $(td).find('u').on('click',function(){
+                $(this).vm6('load_module','20007347',g_vm.root_layout_content_slot,{puid:value});
+            });
+            return td;
+        }};
+        //-------------------------------------
+        columns[7]={data:'GST_Amount',type: 'numeric',format: '$ 0,000.00', readOnly:true};
+        columns[8]={data:'Total_Amount',type: 'numeric',format: '$ 0,000.00', readOnly:true};
+        //-------------------------------------
+        columns[9]={data:'UID', width:80,renderer:function(instance, td, row, col, prop, value, cellProperties){
+            if(value===null){ td.innerHTML=""; return td;}
+            td.innerHTML="<u style='cursor:pointer'>Pay...</u>";
+            $(td).find('u').on('click',function(){
+                $(this).vm6('load_module','20007348',g_vm.root_layout_content_slot,{puid:value});
+            });
+        }};
+        columns[10]={data:'Total_Payment',type: 'numeric',format: '$ 0,000.00', readOnly:true};
+        columns[11]={data:'Balance',type: 'numeric',format: '$ 0,000.00', readOnly:true};
+        //-------------------------------------
+        var before_change=function(changes,source){
+    	    if(source=="edit"){
+                var I=changes[0][0];
+                var p=changes[0][1];
+                var v=changes[0][3];
+                var hot = $('#excel__ID').handsontable('getInstance');
+                if(p==='Client'){
+                    var uid=v.split('-')[0];
+                    var sql="select Info=@('Address')+'\r\n'+@('Suburb')+' '+@('Postcode')+' '+@('State') from [FORM-"+client_pid+"] where uid=@I1 ";
+                    $(this).vm7('request',{cmd:'data2',action:'table',sql:sql,i1:uid}, function(res){
+                        hot.setDataAtCell(I, 4, res.table[0].Info,'');
+                    });
+                }
+    	    }
+        };
+        //-------------------------------------
+        var pre_data_process=function(){
+            for(var i=0;i<records.length;i++){
+                if(records[i].Total_Payment===undefined) records[i].Total_Payment=0;
+                if(records[i].Total_Amount===undefined) records[i].Total_Amount=0;
+                records[i].Balance=parseFloat(records[i].Total_Payment)-parseFloat(records[i].Total_Amount);
+            }
+        };
+        //-------------------------------------
+        var new_pre_data_process=function(){
+            $("#excel__ID").handsontable("setDataAtCell", 0, 3, date_to_string_dmy(date_today()));
+            $("#excel__ID").handsontable("setDataAtCell", 0, 5, date_to_string_dmy(date_today()));
+        };
+        //-------------------------------------
+        var before_submit=function(record,dbv){
+            dbv.PUID='0';
+            var uid=record.Client.split('-')[0]; if(uid!=="") dbv.PUID=uid;
+            return true;
+        };
+        //-------------------------------------
+        var after_submit=function(I,res,n){
+            if(res.uid!==undefined){
+                $("#excel__ID").handsontable("setDataAtCell", 0, 0, res.uid);
+                $("#excel__ID").handsontable("setDataAtCell", 0, 6, res.uid);
+                $("#excel__ID").handsontable("setDataAtCell", 0, 9, res.uid);
+            }
+        };
+        //-------------------------------------
+        $('#D__ID').on('back',function(){
+            if(g_vm[__ID].child_data_changed===1){
+                g_vm[__ID].child_data_changed=0;
+                grid_data();
+            }
+        });
+        //-------------------------------------
+        $('#D__ID').on('load',function(){
+              grid_data();
+        })
+        //-------------------------------------
+    }
+</script>
+<style>
+    VmInclude:__BASE__/vmiis/Common-Code/toolbar/toolbar_for_excel.css
+    #D__ID{
+        font-size:14px;
+        font-family: Helvetica, Arial, sans-serif;
+    }
+</style>
