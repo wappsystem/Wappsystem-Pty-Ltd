@@ -4,10 +4,7 @@
 <script>
     function F__ID(){
         //-------------------------------------
-        //g_vm[__ID].db_pid='20004121';
         var client_pid=$vm.module_list['client'][0]; //'20000368';
-        //var invoice_info_pid='20004120';
-        //var invoice_html_pid='20006725';
         //-------------------------------------
         var fields="Print|UID,Client,Invoice_Number|UID,Issue_Date,To,Due_Date,Items|UID,GST_Amount,Total_Amount,Payments|UID,Total_Payment,Balance";
         fields+=",Submit Date|DateTime,Submitted by|Author";
@@ -15,29 +12,13 @@
         VmInclude:__BASE__/vmiis/Common-Code/frame/excel.js
         //-------------------------------------
         columns[0]={data:'UID', width:60,renderer:function(instance, td, row, col, prop, value, cellProperties){
-            if(value===null || value===undefined){ td.innerHTML=""; return td;}
-            td.innerHTML="<u style='cursor:pointer'>Invoice</u>";
-            $(td).find('u').on('click',function(){
-                //$(this).vm6('load_module','20007349',g_vm.root_layout_content_slot,{uid:value});
-                var url=$vm.module_list['invoice_print'][1];
-                var src=$vm.module_list['invoice_print'][2];
-                var param={
-                    name:'invoice_print',
-                    pid:$vm.id(url),
-                    slot:$vm.root_layout_content_slot,
-                    url:$vm.url(url),
-                    source:src,
-                    puid:value,
-                 }
-                 $vm.load_module(param);
-            });
-            return td;
+            VmInclude:__BASE__/vmiis/Common-Code/hot/render_load_child_module.js|CELL_TEXT|Invoice|MODULE_NAME|invoice_print
         }};
         //-------------------------------------
         columns[1]={data:'Client',type:'autocomplete',source:function(query, process){
             var sqlA="with tb as (select [Item]=Convert(varchar,UID)+'-'+@('Client_Name') from [TABLE-"+client_pid+"])";
             sqlA+=" select top 10 Item from tb where Item like '%'+@S1+'%' ";
-            $(this).vm8('auto',query,process,sqlA,0);
+            $vm.read_record_auto({query:query,process:process,sql:sqlA,minLength:0});
         }};
         //-------------------------------------
         columns[2]={data:'UID', readOnly:true};
@@ -45,52 +26,22 @@
         columns[3]={data:'Issue_Date',width:120,type: 'date',format: 'DD/MM/YYYY',correctFormat:true};
         //-------------------------------------
         columns[4]={data:'To', width:50,renderer:function(instance, td, row, col, prop, value, cellProperties){
-            if(value===null){ td.innerHTML=""; return td;}
-            td.innerHTML="To...";
+            if(value===null){ td.innerHTML=""; return td;};
+            td.innerHTML="<span title='"+value+"'>To...</span>";
             return td;
         }};
         //-------------------------------------
         columns[5]={data:'Due_Date',width:120,type: 'date',format: 'DD/MM/YYYY',correctFormat:true};
         //-------------------------------------
         columns[6]={data:'UID', width:80,renderer:function(instance, td, row, col, prop, value, cellProperties){
-            if(value===null){ td.innerHTML=""; return td;}
-            td.innerHTML="<u style='cursor:pointer'>Items...</u>";
-            $(td).find('u').on('click',function(){
-                var url=$vm.module_list['invoice_items'][1];
-                var src=$vm.module_list['invoice_items'][2];
-                var param={
-                    name:'invoice_items',
-                    pid:$vm.id(url),
-                    slot:$vm.root_layout_content_slot,
-                    url:$vm.url(url),
-                    source:src,
-                    puid:value,
-                 }
-                 $vm.load_module(param);
-            });
-            return td;
+            VmInclude:__BASE__/vmiis/Common-Code/hot/render_load_child_module.js|CELL_TEXT|Items...|MODULE_NAME|invoice_items
         }};
         //-------------------------------------
         columns[7]={data:'GST_Amount',type: 'numeric',format: '$ 0,000.00', readOnly:true};
         columns[8]={data:'Total_Amount',type: 'numeric',format: '$ 0,000.00', readOnly:true};
         //-------------------------------------
         columns[9]={data:'UID', width:80,renderer:function(instance, td, row, col, prop, value, cellProperties){
-            if(value===null){ td.innerHTML=""; return td;}
-            td.innerHTML="<u style='cursor:pointer'>Pay...</u>";
-            $(td).find('u').on('click',function(){
-                //$(this).vm6('load_module','20007348',g_vm.root_layout_content_slot,{puid:value});
-                var url=$vm.module_list['invoice_patments'][1];
-                var src=$vm.module_list['invoice_patments'][2];
-                var param={
-                    name:'invoice_patments',
-                    pid:$vm.id(url),
-                    slot:$vm.root_layout_content_slot,
-                    url:$vm.url(url),
-                    source:src,
-                    puid:value,
-                 }
-                 $vm.load_module(param);
-            });
+            VmInclude:__BASE__/vmiis/Common-Code/hot/render_load_child_module.js|CELL_TEXT|Pay...|MODULE_NAME|invoice_patments
         }};
         columns[10]={data:'Total_Payment',type: 'numeric',format: '$ 0,000.00', readOnly:true};
         columns[11]={data:'Balance',type: 'numeric',format: '$ 0,000.00', readOnly:true};
@@ -100,13 +51,13 @@
                 var I=changes[0][0];
                 var p=changes[0][1];
                 var v=changes[0][3];
-                var hot = $('#excel__ID').handsontable('getInstance');
+                var hot=$('#excel__ID').handsontable('getInstance');
                 if(p==='Client'){
                     var uid=v.split('-')[0];
                     var sql="select Info=@('Address')+'\r\n'+@('Suburb')+' '+@('Postcode')+' '+@('State') from [FORM-"+client_pid+"] where uid=@I1 ";
-                    $(this).vm7('request',{cmd:'data2',action:'table',sql:sql,i1:uid}, function(res){
+                    $VmAPI.request({data:{cmd:'query_record',sql:sql},callback:function(res){
                         hot.setDataAtCell(I, 4, res.table[0].Info,'');
-                    });
+                    }});
                 }
     	    }
         };
