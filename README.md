@@ -1,9 +1,5 @@
-# Wappsystem-Pty-Ltd
-Preview link: <a target=_blank href=https://cbs.wappsystem.com/dev/github/wappsystem/Wappsystem-Pty-Ltd/index.html>index.html</a>
-
-<ul>
-<li>This application can be hosted on any HTML server.</li>
-<li>All business data are stored in a Database hosted on Amazon cloud infrastructure.</li>
-<li>All business data are daily backup to Amazon Cloud DynamoDB Database (under data owner's account)</li>
-<li>All business files are instantly stored in or accessed from Amazon Cloud S3 Storage (under file owner's account)</li>
-</ul>
+# Wappsystem Pty Ltd
+<a target=_blank href=https://cbs.wappsystem.com/dev/github/wappsystem/Wappsystem-Pty-Ltd/index.html>Hosted on Wappsystem</a><br>
+<a target=_blank href=https://htmlpreview.github.io/?https://raw.githubusercontent.com/wappsystem/Wappsystem-Pty-Ltd/master/github.html>Hosted on GitHub</a><br>
+<a target=_blank href=http://127.0.0.1:8000/wappsystem/Wappsystem-Pty-Ltd/local.html>Hosted on Local</a>
+<img src=https://cbs.wappsystem.com/dev/github/vmiis/SaaS/images/structure.png?v=2 />
