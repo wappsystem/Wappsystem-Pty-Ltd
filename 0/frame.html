@@ -5,7 +5,7 @@
                 <span id=vm_username></span>
             </div>
         </div>
-        <div bottom-right-corner style='display:none' id=_sys_dev_toolbar_0>
+        <div class='d-none d-md-block' bottom-right-corner style='display:none' id=_sys_dev_toolbar_0>
             <span id=_sys_dev_toolbar_debug_info></span>
             , <u id=_sys_dev_toolbar_editor style='cursor:pointer'>edit current module</u>
             , <u id=_sys_dev_toolbar_code style='cursor:pointer'>source code of current module</u>
@@ -45,6 +45,89 @@
                 }
             })
             //------------------------------------
+            $('#_sys_dev_toolbar_system').on('click',function(){
+                var txt="<body>\r\n";
+                    txt+="\t<header>\r\n";
+                    $('#header >div').each(function(){
+                        var a=$(this).attr('id');
+                        var m=$(this).attr('module');
+                        var c="url:"+"@1span class=c1@2"+$vm.module_list[m].url+"@1/span@2";
+                        var tb=$vm.module_list[m].Table;
+                        if(tb!=undefined) c=c+", table:"+"@1span class=c2@2"+tb+"@1/span@2";
+                        txt+="\t\t<div id="+a+" module=@1span class=c@2"+m+"@1/span@2>"+c+"</div>\r\n";
+                    })
+                    txt+="\t</header>\r\n";
+                    txt+="\t<content>\r\n";
+                        $('#content >div').each(function(){
+                        var a=$(this).attr('id');
+                        var m=$(this).attr('module');
+                        var c="url:"+"@1span class=c1@2"+$vm.module_list[m].url+"@1/span@2";
+                        var tb=$vm.module_list[m].Table;
+                        if(tb!=undefined) c=c+", table:"+"@1span class=c2@2"+tb+"@1/span@2";
+                        txt+="\t\t<div id="+a+" module=@1span class=c@2"+m+"@1/span@2>"+c+"</div>\r\n";
+                    })
+                    txt+="\t</content>\r\n";
+                    txt+="\t<footer>\r\n";
+                        $('#footer >div').each(function(){
+                        var a=$(this).attr('id');
+                        var m=$(this).attr('module');
+                        var c="url:"+"@1span class=c1@2"+$vm.module_list[m].url+"@1/span@2";
+                        var tb=$vm.module_list[m].Table;
+                        if(tb!=undefined) c=c+", table:"+"@1span class=c2@2"+tb+"@1/span@2";
+                        txt+="\t\t<div id="+a+" module=@1span class=c@2"+m+"@1/span@2>"+c+"</div>\r\n";
+                    })
+                    txt+="\t</footer>\r\n";
+                    txt+="\t<system>\r\n";
+                        $('#system >div').each(function(){
+                        var a=$(this).attr('id');
+                        var m=$(this).attr('module');
+                        var c="url:"+"@1span class=c1@2"+$vm.module_list[m].url+"@1/span@2";
+                        var tb=$vm.module_list[m].Table;
+                        if(tb!=undefined) c=c+", table:"+"@1span class=c2@2"+tb+"@1/span@2";
+                        txt+="\t\t<div id="+a+" module=@1span class=c@2"+m+"@1/span@2>"+c+"</div>\r\n";
+                    })
+                    txt+="\t</system>\r\n";
+                    txt+="</body>\r\n";
+                    txt=txt.replace(/</g,'&lt;');
+                    txt=txt.replace(/>/g,'&gt;');
+                    txt=txt.replace(/@1/g,'<');
+                    txt=txt.replace(/@2/g,'>');
+                var win=window.open("","Systsm Infomation");
+                win.document.body.innerHTML="<pre>"+txt+"</pre><title>System Infomation</title><style> .c{color:red;} .c1{color:blue;} .c2{color:green;} body{ font-family:Courier New;font-size:12px; white-space: nowrap; } </style>";
+            })
+            //------------------------------------
+            $('#_sys_dev_toolbar_code').on('click',function(){
+                if($vm.active_name!=undefined){
+                    var url=$vm.module_list[$vm.active_name].url;
+                    $.get(url,function(txt){
+                        txt=txt.replace(/</g,'&lt;');
+                        txt=txt.replace(/>/g,'&gt;');
+                        var win=window.open("","Sources Code");
+                        win.document.body.innerHTML=url+"<br><br><pre>"+txt+"</pre><title>Source Code</title><style> body{ font-family:Courier New;font-size:12px; white-space: nowrap; } </style>";
+                    },'text');
+                }
+            })
+            //------------------------------------
+            $('#_sys_dev_toolbar_list').on('click',function(){
+                var txt="";
+                var s=[];
+                for(a in $vm.module_list){
+                    if(a!='module-editor'){
+                        var L=a.length;
+                        var tt="";
+                        for(k=0;k<50-L;k++) tt+="&nbsp;"; 
+                        s.push(a+tt+JSON.stringify($vm.module_list[a]));
+                    }
+                }
+                s.sort();
+                for(i in s){
+                    txt+=s[i]+"<br>";
+                }
+                var win=window.open("","Module list");
+                win.document.body.innerHTML=txt+"<title>Module List</title><style> body{ font-family:Courier New;font-size:12px; white-space: nowrap; } </style>";
+            })
+            //------------------------------------
+
             console.log("start_frame  "+(new Date().getTime()-$vm.start_time)+'ms');
             //------------------------------------------
             var data=''; for(var key in window.localStorage){ if(window.localStorage.hasOwnProperty(key)){ data+=window.localStorage[key]; }}
@@ -88,6 +171,16 @@
                         $vm.load_js_link(links[i])
                     }
                 }
+                //-------------------------------------
+                /*?
+                $vm.module_list['_system_export_dialog_module']={table_id:'',url:'__COMPONENT__/dialog/export_dialog_module.html',"name_for_search":""};
+                $vm.module_list['_system_import_dialog_module']={table_id:'',url:'__COMPONENT__/dialog/import_dialog_module.html',"name_for_search":""};
+                $vm.module_list['uploading_file_dialog_module']={table_id:'',url:'__COMPONENT__/dialog/uploading_file_dialog_module.html',"name_for_search":""};
+                $vm.load_module_v2('_system_export_dialog_module','hidden',{})
+                $vm.load_module_v2('_system_import_dialog_module','hidden',{})
+                $vm.load_module_v2('uploading_file_dialog_module','hidden',{})
+                */
+                //-------------------------------------
             }
             //------------------------------------
             if($vm.resources==undefined){
