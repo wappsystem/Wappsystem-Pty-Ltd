@@ -42,14 +42,14 @@
                 m.item_a_records=[]; if(m.input.record!=undefined) m.item_a_records=m.input.record.Data.items;
                 
                 var txt="<table style='width:100%'>";
-                txt=txt+"<tr><th>Description</td><th style='text-align: right;'>Unit Price</th><th style='text-align: right;'>Quantity</th><th style='text-align: right;'>GST</th><th style='text-align: right;'>Amount</th>";
+                txt=txt+"<tr><th>Description</td><th style='text-align: left;'>Unit Price</th><th style='text-align: center;width:50px'>Qty</th><th style='text-align: center;'>GST</th><th style='text-align: right;'>Amount</th>";
                 for(var i=m.item_a_records.length-1;i>-1;i--){
                     var GST="";
                     if(m.item_a_records[i].GST=="1") GST="&#x2714;";
                     txt+="<tr><td>"+m.item_a_records[i].Description+"</td>";
-                    txt+="<td style='text-align: right;'>"+formatter.format(m.item_a_records[i].Unit_Price)+"</td>";
-                    txt+="<td style='text-align: right;'>"+m.item_a_records[i].Quantity+"</td>";
-                    txt+="<td style='text-align: right;'>"+GST+"</td>";
+                    txt+="<td style='text-align: left;'>"+formatter.format(m.item_a_records[i].Unit_Price)+"</td>";
+                    txt+="<td style='text-align: center;'>"+m.item_a_records[i].Quantity+"</td>";
+                    txt+="<td style='text-align: center;'>"+GST+"</td>";
                     txt+="<td style='text-align: right;'>"+formatter.format(m.item_a_records[i].Amount)+"</td></tr>";
                 }
                 txt+="</table>"
@@ -57,8 +57,13 @@
                 $('#no__ID').html("No. "+m.input.record.UID);
                 $('#GST__ID').text(formatter.format(m.input.record.Data.GST_Amount));
                 $('#Total__ID').text(formatter.format(m.input.record.Data.Total_Amount));
-                m.input.record.Data.Client_info=[m.input.record.Data.Client_info.slice(0, m.input.record.Data.Client_info.indexOf('|')+1), 'Att: '+m.input.record.Data.Attention, m.input.record.Data.Client_info.slice(m.input.record.Data.Client_info.indexOf('|'))].join('');
-                $('#Client_info__ID').html(m.input.record.Data.Client_info.replace(/\|/g,'<br>').replace(/<br><br>/g,''));
+                console.log("1: "+m.input.record.Data.Client_info)
+                if(m.input.record.Data.Attention!=''){
+                    m.input.record.Data.Client_info=[m.input.record.Data.Client_info.slice(0, m.input.record.Data.Client_info.indexOf('|')+1), 'Att: '+m.input.record.Data.Attention, m.input.record.Data.Client_info.slice(m.input.record.Data.Client_info.indexOf('|'))].join('');
+                }
+                console.log("2: "+m.input.record.Data.Client_info)
+                $('#Client_info__ID').html(m.input.record.Data.Client_info.replace(/\|/g,'<br>'));
+                console.log("3: "+m.input.record.Data.Client_info)
                 $('#Issue_Date__ID').text(m.input.record.Data.Issue_Date);
                 $('#Due_Date__ID').text(m.input.record.Data.Due_Date);
             })
